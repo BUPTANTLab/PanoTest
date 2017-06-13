@@ -1,15 +1,19 @@
 package com.antlab.panotest;
 
+import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-class PanoView implements GLSurfaceView.Renderer {
+class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
+    private static final String TAG = PanoView.class.getSimpleName();
+    private GLSurfaceView m_glsv;
     private Context m_context;
     private Sphere m_sphere;
     private int aPositionHandle;
@@ -23,14 +27,16 @@ class PanoView implements GLSurfaceView.Renderer {
     private float[] modelViewMatrix = new float[16];
     private float[] mMVPMatrix = new float[16];
     private int uMatrixHandle;
+    private PanoSE m_pse = new PanoSE();
 
     private PanoView() {
     }
 
-    PanoView setGLSurface(GLSurfaceView m_glsv) {
+    PanoView setGLSurface(GLSurfaceView gl) {
+        m_glsv = gl;
         m_glsv.setEGLContextClientVersion(2);
         m_glsv.setRenderer(this);
-        m_glsv.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        m_glsv.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         return this;
     }
 
@@ -41,16 +47,18 @@ class PanoView implements GLSurfaceView.Renderer {
     PanoView init(Context context) {
         m_sphere = new Sphere(18, 100, 200);
         m_context = context;
+        Matrix.setIdentityM(modelMatrix, 0);
+        m_pse.init((Activity) context, this);
         return this;
     }
 
     @Override
     public void onDrawFrame(GL10 glUnused) {
+        Log.i(TAG, "onDraw");
 
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glUseProgram(programId);
 
-        Matrix.setIdentityM(modelMatrix, 0);
         Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0);
         GLES20.glUniformMatrix4fv(uMatrixHandle, 1, false, mMVPMatrix, 0);
@@ -66,7 +74,6 @@ class PanoView implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
-
         GLES20.glViewport(0, 0, width, height);
         float ratio = (float) width / height;
         Matrix.perspectiveM(projectionMatrix, 0, 90, ratio, 1f, 500f);
@@ -75,6 +82,7 @@ class PanoView implements GLSurfaceView.Renderer {
                 0.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, -1.0f,
                 0.0f, 1.0f, 0.0f);
+        m_glsv.requestRender();
     }
 
     @Override
@@ -85,5 +93,16 @@ class PanoView implements GLSurfaceView.Renderer {
         uTextureSamplerHandle = GLES20.glGetUniformLocation(programId, "sTexture");
         aTextureCoordHandle = GLES20.glGetAttribLocation(programId, "aTexCoord");
         textureId = Shade.loadTexture(m_context, R.drawable.texture_360_n);
+        m_glsv.requestRender();
+    }
+
+    void release() {
+    }
+
+    @Override
+    public void update(float[] rotationMatrix) {
+        modelMatrix = rotationMatrix;
+        m_glsv.requestRender();
+        Log.i(TAG, "requestRender");
     }
 }
