@@ -1,6 +1,7 @@
 package com.antlab.panotest;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -8,6 +9,7 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 class Sphere {
+    private static final String TAG = Sphere.class.getSimpleName();
     private static final int sPositionDataSize = 3;
     private static final int sTextureCoordinateDataSize = 2;
 
@@ -127,5 +129,6 @@ class Sphere {
     void draw() {
         indexBuffer.position(0);
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, mNumIndices, GLES20.GL_UNSIGNED_SHORT, indexBuffer);
+        Log.i(TAG, "draw");
     }
 }

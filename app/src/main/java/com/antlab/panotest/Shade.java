@@ -29,7 +29,7 @@ class Shade {
         final int[] textureObjectIds = new int[1];
         GLES20.glGenTextures(1, textureObjectIds, 0);
         if (textureObjectIds[0] == 0) {
-            Log.d(TAG, "生成纹理对象失败");
+            Log.i(TAG, "生成纹理对象失败");
             return 0;
         }
 
@@ -39,7 +39,7 @@ class Shade {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
 
         if (bitmap == null) {
-            Log.d(TAG, "加载位图失败");
+            Log.i(TAG, "加载位图失败");
             GLES20.glDeleteTextures(1, textureObjectIds, 0);
             return 0;
         }
