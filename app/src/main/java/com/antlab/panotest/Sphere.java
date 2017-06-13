@@ -19,7 +19,8 @@ class Sphere {
     private int mNumIndices;
 
 
-    Sphere(float radius, int rings, int sectors) {
+    Sphere(float radius, int rings) {
+        int sectors = rings * 2;
         final float PI = (float) Math.PI;
         final float PI_2 = (float) (Math.PI / 2);
 
