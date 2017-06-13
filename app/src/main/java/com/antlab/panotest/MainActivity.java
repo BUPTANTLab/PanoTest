@@ -3,12 +3,13 @@ package com.antlab.panotest;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
 
 public class MainActivity extends AppCompatActivity {
     private PanoView m_panoview;
-    public static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,5 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         GLSurfaceView glSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
         m_panoview = PanoView.build().setGLSurface(glSurfaceView).init(this);
+        Log.i(TAG, "init");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        m_panoview.release();
     }
 }
