@@ -15,12 +15,10 @@ import java.util.List;
 
 class PanoSE implements SensorEventListener {
     private static final String TAG = PanoSE.class.getSimpleName();
-    private Activity m_root;
     private float[] m_rotationMatrix = new float[16];
     private updateSensorMatrix m_usm;
 
     void init(Activity root, updateSensorMatrix usm) {
-        m_root = root;
         SensorManager sensorManager = (SensorManager) root
                 .getSystemService(Context.SENSOR_SERVICE);
         Sensor sensorRot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -61,7 +59,7 @@ class PanoSE implements SensorEventListener {
         SensorManager.getRotationMatrixFromVector(mTmp, values);
         SensorManager.remapCoordinateSystem(mTmp, SensorManager.AXIS_Y, SensorManager.AXIS_X, output);
 
-        Matrix.rotateM(output, 0, 90.0F, 1.0F, 0.0F, 0.0F);
+        Matrix.rotateM(output, 0, -90.0F, 1.0F, 0.0F, 0.0F);
     }
 
     interface updateSensorMatrix {
