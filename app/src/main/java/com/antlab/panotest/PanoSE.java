@@ -43,8 +43,7 @@ class PanoSE implements SensorEventListener {
             int type = event.sensor.getType();
             switch (type) {
                 case Sensor.TYPE_ROTATION_VECTOR:
-                    int mDeviceRotation = m_root.getWindowManager().getDefaultDisplay().getRotation();
-                    sensorRotationVectorToMatrix(event, mDeviceRotation, m_rotationMatrix);
+                    sensorRotationVectorToMatrix(event, m_rotationMatrix);
                     m_usm.update(m_rotationMatrix);
                     break;
             }
@@ -56,17 +55,12 @@ class PanoSE implements SensorEventListener {
 
     }
 
-    private void sensorRotationVectorToMatrix(SensorEvent event, int deviceRotation, float[] output) {
+    private void sensorRotationVectorToMatrix(SensorEvent event, float[] output) {
         float[] mTmp = new float[16];
         float[] values = event.values;
-        switch (deviceRotation) {
-            case Surface.ROTATION_0:
-                SensorManager.getRotationMatrixFromVector(output, values);
-                break;
-            default:
-                SensorManager.getRotationMatrixFromVector(mTmp, values);
-                SensorManager.remapCoordinateSystem(mTmp, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, output);
-        }
+        SensorManager.getRotationMatrixFromVector(mTmp, values);
+        SensorManager.remapCoordinateSystem(mTmp, SensorManager.AXIS_Y, SensorManager.AXIS_X, output);
+
         Matrix.rotateM(output, 0, 90.0F, 1.0F, 0.0F, 0.0F);
     }
 

@@ -45,7 +45,7 @@ class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
     }
 
     PanoView init(Context context) {
-        m_sphere = new Sphere(18, 183);
+        m_sphere = new Sphere(18, 100);
         m_context = context;
         Matrix.setIdentityM(modelMatrix, 0);
         m_pse.init((Activity) context, this);
