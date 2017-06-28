@@ -1,4 +1,4 @@
-package com.antlab.panotest;
+package com.antlab.panotest.render;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,12 +7,17 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.antlab.panotest.PanoSE;
+import com.antlab.panotest.R;
+import com.antlab.panotest.Shade;
+import com.antlab.panotest.Sphere;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
-    private static final String TAG = PanoView.class.getSimpleName();
+public class PanoImageView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
+    private static final String TAG = PanoImageView.class.getSimpleName();
     private GLSurfaceView m_glsv;
     private Context m_context;
     private Sphere m_sphere;
@@ -29,10 +34,10 @@ class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
     private int uMatrixHandle;
     private PanoSE m_pse = new PanoSE();
 
-    private PanoView() {
+    private PanoImageView() {
     }
 
-    PanoView setGLSurface(GLSurfaceView gl) {
+    public PanoImageView setGLSurface(GLSurfaceView gl) {
         m_glsv = gl;
         m_glsv.setEGLContextClientVersion(2);
         m_glsv.setRenderer(this);
@@ -40,11 +45,11 @@ class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
         return this;
     }
 
-    static PanoView build() {
-        return new PanoView();
+    public static PanoImageView build() {
+        return new PanoImageView();
     }
 
-    PanoView init(Context context) {
+    public PanoImageView init(Context context) {
         m_sphere = new Sphere(18, 100);
         m_context = context;
         Matrix.setIdentityM(modelMatrix, 0);
@@ -99,14 +104,14 @@ class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
         m_glsv.requestRender();
     }
 
-    void release() {
+    public void release() {
     }
 
-    void pause() {
+    public void pause() {
         m_glsv.onPause();
     }
 
-    void resume() {
+    public void resume() {
         m_glsv.onResume();
     }
 

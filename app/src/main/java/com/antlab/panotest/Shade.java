@@ -8,9 +8,9 @@ import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
 
-class Shade {
+public class Shade {
     private static final String TAG = Shade.class.getSimpleName();
-    static String vertex = "attribute vec4 aPosition;\n" +
+    public static String vertex = "attribute vec4 aPosition;\n" +
             "attribute vec2 aTexCoord;\n" +
             "varying vec2 vTexCoord;\n" +
             "uniform mat4 uMatrix;\n" +
@@ -18,14 +18,14 @@ class Shade {
             "    vTexCoord=aTexCoord;\n" +
             "    gl_Position = uMatrix*aPosition;\n" +
             "}";
-    static String frag = "precision mediump float;\n" +
+    public static String frag = "precision mediump float;\n" +
             "varying vec2 vTexCoord;\n" +
             "uniform sampler2D sTexture;\n" +
             "void main() {\n" +
             "    gl_FragColor = texture2D(sTexture,vTexCoord);\n" +
             "}";
 
-    static int loadTexture(Context context, int resourceId) {
+    public static int loadTexture(Context context, int resourceId) {
         final int[] textureObjectIds = new int[1];
         GLES20.glGenTextures(1, textureObjectIds, 0);
         if (textureObjectIds[0] == 0) {
@@ -77,7 +77,7 @@ class Shade {
         return shader;
     }
 
-    static int createProgram(String vertexSource, String fragmentSource) {
+    public static int createProgram(String vertexSource, String fragmentSource) {
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
         if (vertexShader == 0) {
             return 0;

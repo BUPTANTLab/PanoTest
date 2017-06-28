@@ -7,18 +7,17 @@ import android.app.Activity;
 import android.hardware.SensorManager;
 import android.content.Context;
 import android.util.Log;
-import android.view.Surface;
 import android.opengl.Matrix;
 
 import java.util.List;
 
 
-class PanoSE implements SensorEventListener {
+public class PanoSE implements SensorEventListener {
     private static final String TAG = PanoSE.class.getSimpleName();
     private float[] m_rotationMatrix = new float[16];
     private updateSensorMatrix m_usm;
 
-    void init(Activity root, updateSensorMatrix usm) {
+    public void init(Activity root, updateSensorMatrix usm) {
         SensorManager sensorManager = (SensorManager) root
                 .getSystemService(Context.SENSOR_SERVICE);
         Sensor sensorRot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -62,7 +61,7 @@ class PanoSE implements SensorEventListener {
         Matrix.rotateM(output, 0, -90.0F, 1.0F, 0.0F, 0.0F);
     }
 
-    interface updateSensorMatrix {
+    public interface updateSensorMatrix {
         void update(float[] rotationMatrix);
     }
 }

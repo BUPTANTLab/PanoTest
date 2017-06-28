@@ -8,7 +8,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-class Sphere {
+public class Sphere {
     private static final String TAG = Sphere.class.getSimpleName();
     private static final int sPositionDataSize = 3;
     private static final int sTextureCoordinateDataSize = 2;
@@ -19,7 +19,7 @@ class Sphere {
     private int mNumIndices;
 
 
-    Sphere(float radius, int rings) {
+    public Sphere(float radius, int rings) {
         int sectors = rings * 2;
         final float PI = (float) Math.PI;
         final float PI_2 = (float) (Math.PI / 2);
@@ -97,7 +97,7 @@ class Sphere {
     }
 
 
-    void uploadVerticesBuffer(int positionHandle) {
+    public void uploadVerticesBuffer(int positionHandle) {
         FloatBuffer vertexBuffer = getVerticesBuffer();
         if (vertexBuffer == null) return;
         vertexBuffer.position(0);
@@ -108,7 +108,7 @@ class Sphere {
         Shade.checkGlError("glEnableVertexAttribArray maPositionHandle");
     }
 
-    void uploadTexCoordinateBuffer(int textureCoordinateHandle) {
+    public void uploadTexCoordinateBuffer(int textureCoordinateHandle) {
         FloatBuffer textureBuffer = getTexCoordinateBuffer();
         if (textureBuffer == null) return;
         textureBuffer.position(0);
@@ -127,7 +127,7 @@ class Sphere {
         return mTexCoordinateBuffer;
     }
 
-    void draw() {
+    public void draw() {
         indexBuffer.position(0);
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, mNumIndices, GLES20.GL_UNSIGNED_SHORT, indexBuffer);
         Log.i(TAG, "draw");
