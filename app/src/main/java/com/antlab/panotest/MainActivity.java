@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 
 import com.antlab.panotest.render.PanoView;
 import com.antlab.panotest.render.PanoImageView;
+import com.antlab.panotest.render.PanoVideoView;
 
 public class MainActivity extends AppCompatActivity {
     private PanoView m_panoview;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         GLSurfaceView glSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
-        m_panoview = PanoImageView.build().setGLSurface(glSurfaceView).init(this);
+        m_panoview = PanoVideoView.build().setGLSurface(glSurfaceView).init(MainActivity.this);
         Log.i(TAG, "init");
     }
 

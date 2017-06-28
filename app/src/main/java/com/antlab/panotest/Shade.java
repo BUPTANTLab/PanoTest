@@ -4,6 +4,7 @@ package com.antlab.panotest;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
@@ -58,6 +59,21 @@ public class Shade {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
         return textureObjectIds[0];
+    }
+
+    public static int loadTexture() {
+
+        int[] textures = new int[1];
+        GLES20.glGenTextures(1, textures, 0);
+
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textures[0]);
+        Shade.checkGlError("glBindTexture mTextureID");
+
+        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MIN_FILTER,
+                GLES20.GL_NEAREST);
+        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MAG_FILTER,
+                GLES20.GL_LINEAR);
+        return textures[0];
     }
 
     static private int loadShader(int shaderType, String source) {
