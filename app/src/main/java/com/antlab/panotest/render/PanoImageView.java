@@ -95,7 +95,7 @@ public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, P
 
     @Override
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-        programId = Shade.createProgram(Shade.vertex, Shade.frag);
+        programId = Shade.createProgram(Shade.vertex, Shade.image_frag);
         aPositionHandle = GLES20.glGetAttribLocation(programId, "aPosition");
         uMatrixHandle = GLES20.glGetUniformLocation(programId, "uMatrix");
         uTextureSamplerHandle = GLES20.glGetUniformLocation(programId, "sTexture");

@@ -18,6 +18,7 @@ import com.antlab.panotest.PanoSE;
 
 import android.net.Uri;
 
+import com.antlab.panotest.R;
 import com.antlab.panotest.Shade;
 import com.antlab.panotest.Sphere;
 
@@ -25,7 +26,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix, SurfaceTexture.OnFrameAvailableListener {
+public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix, SurfaceTexture.OnFrameAvailableListener, MediaPlayer.OnVideoSizeChangedListener {
     private static final String TAG = PanoVideoView.class.getSimpleName();
     private GLSurfaceView m_glsv;
     private Sphere m_sphere;
@@ -66,18 +67,20 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
 
         mediaPlayer = new MediaPlayer();
         try {
-            mediaPlayer.setDataSource(context, Uri.parse("android.resource://com.antlab.panotest/raw/demo_video.mp4"));
+            mediaPlayer.setDataSource(context, Uri.parse("android.resource://com.antlab.panotest/" + R.raw.demo_video));
         } catch (IOException e) {
             e.printStackTrace();
         }
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setLooping(true);
+        mediaPlayer.setOnVideoSizeChangedListener(this);
         return this;
     }
 
     @Override
     public void onDrawFrame(GL10 glUnused) {
         Log.i(TAG, "onDraw");
+        surfaceTexture.updateTexImage();
 
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glUseProgram(programId);
@@ -112,8 +115,13 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
     }
 
     @Override
+    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+        Log.d(TAG, "onVideoSizeChanged: " + width + " " + height);
+    }
+
+    @Override
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-        programId = Shade.createProgram(Shade.vertex, Shade.frag);
+        programId = Shade.createProgram(Shade.vertex, Shade.video_frag);
         aPositionHandle = GLES20.glGetAttribLocation(programId, "aPosition");
         uMatrixHandle = GLES20.glGetUniformLocation(programId, "uMatrix");
         uTextureSamplerHandle = GLES20.glGetUniformLocation(programId, "sTexture");
@@ -158,7 +166,6 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
 
     @Override
     synchronized public void onFrameAvailable(SurfaceTexture surface) {
-        surfaceTexture.updateTexImage();
         m_glsv.requestRender();
     }
 }

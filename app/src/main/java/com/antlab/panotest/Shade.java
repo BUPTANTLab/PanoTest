@@ -19,9 +19,16 @@ public class Shade {
             "    vTexCoord=aTexCoord;\n" +
             "    gl_Position = uMatrix*aPosition;\n" +
             "}";
-    public static String frag = "precision mediump float;\n" +
+    public static String image_frag = "precision mediump float;\n" +
             "varying vec2 vTexCoord;\n" +
             "uniform sampler2D sTexture;\n" +
+            "void main() {\n" +
+            "    gl_FragColor = texture2D(sTexture,vTexCoord);\n" +
+            "}";
+    public static String video_frag = "#extension GL_OES_EGL_image_external : require\n" +
+            "precision mediump float;\n" +
+            "varying vec2 vTexCoord;\n" +
+            "uniform samplerExternalOES sTexture;\n" +
             "void main() {\n" +
             "    gl_FragColor = texture2D(sTexture,vTexCoord);\n" +
             "}";
