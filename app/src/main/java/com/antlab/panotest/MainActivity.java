@@ -7,10 +7,11 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
 
+import com.antlab.panotest.render.PanoView;
 import com.antlab.panotest.render.PanoImageView;
 
 public class MainActivity extends AppCompatActivity {
-    private PanoImageView m_panoview;
+    private PanoView m_panoview;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override

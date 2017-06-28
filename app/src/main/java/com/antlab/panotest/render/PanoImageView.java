@@ -16,7 +16,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-public class PanoImageView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
+public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
     private static final String TAG = PanoImageView.class.getSimpleName();
     private GLSurfaceView m_glsv;
     private Context m_context;
@@ -104,13 +104,16 @@ public class PanoImageView implements GLSurfaceView.Renderer, PanoSE.updateSenso
         m_glsv.requestRender();
     }
 
+    @Override
     public void release() {
     }
 
+    @Override
     public void pause() {
         m_glsv.onPause();
     }
 
+    @Override
     public void resume() {
         m_glsv.onResume();
     }
