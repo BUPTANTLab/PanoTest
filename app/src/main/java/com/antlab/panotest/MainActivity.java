@@ -35,4 +35,16 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         m_panoview.release();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        m_panoview.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        m_panoview.resume();
+    }
 }

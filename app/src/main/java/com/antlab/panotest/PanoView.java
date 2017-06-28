@@ -76,7 +76,7 @@ class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
         float ratio = (float) width / height;
-        Matrix.perspectiveM(projectionMatrix, 0, 90, ratio, 1f, 500f);//视角为90度，近平面为1，远平面500
+        Matrix.perspectiveM(projectionMatrix, 0, 60, ratio, 1f, 500f);//视角为60度，近平面为1，远平面500
 
         Matrix.setLookAtM(viewMatrix, 0,
                 0.0f, 0.0f, 0.0f,
@@ -100,6 +100,14 @@ class PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
     }
 
     void release() {
+    }
+
+    void pause() {
+        m_glsv.onPause();
+    }
+
+    void resume() {
+        m_glsv.onResume();
     }
 
     @Override
