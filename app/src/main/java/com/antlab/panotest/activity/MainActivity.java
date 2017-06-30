@@ -1,4 +1,4 @@
-package com.antlab.panotest;
+package com.antlab.panotest.activity;
 
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
 
+import com.antlab.panotest.R;
 import com.antlab.panotest.render.PanoView;
-import com.antlab.panotest.render.PanoImageView;
 import com.antlab.panotest.render.PanoVideoView;
 
 public class MainActivity extends AppCompatActivity {
