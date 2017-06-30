@@ -119,7 +119,7 @@ public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, P
     }
 
     @Override
-    public void update(float[] rotationMatrix) {
+    public void update(float[] rotationMatrix, float[] orientation) {
         modelMatrix = rotationMatrix;
         m_glsv.requestRender();
         Log.i(TAG, "requestRender");

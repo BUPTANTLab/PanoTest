@@ -67,7 +67,7 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
 
         mediaPlayer = new MediaPlayer();
         try {
-            mediaPlayer.setDataSource(context, Uri.parse("android.resource://com.antlab.panotest/" + R.raw.demo_video));
+            mediaPlayer.setDataSource(context, Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.demo_video));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -145,11 +145,13 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
 
     @Override
     public void release() {
+        mediaPlayer.release();
     }
 
     @Override
     public void pause() {
         m_glsv.onPause();
+        mediaPlayer.pause();
     }
 
     @Override
@@ -158,7 +160,7 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
     }
 
     @Override
-    public void update(float[] rotationMatrix) {
+    public void update(float[] rotationMatrix, float[] orientation) {
         modelMatrix = rotationMatrix;
         m_glsv.requestRender();
         Log.i(TAG, "requestRender");
