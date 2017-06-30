@@ -14,6 +14,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash);
 
         Button m_img = (Button) findViewById(R.id.button_img);
         Button m_vid = (Button) findViewById(R.id.button_vid);
@@ -21,22 +22,18 @@ public class SplashActivity extends AppCompatActivity {
         m_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putInt("type", MainActivity.ImageView);
-                intent.putExtras(mBundle);
-                startActivity(intent);
+                Intent mint = new Intent(SplashActivity.this, MainActivity.class);
+                mint.putExtra("type", MainActivity.ImageView);
+                startActivity(mint);
                 finish();
             }
         });
         m_vid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putInt("type", MainActivity.VideoView);
-                intent.putExtras(mBundle);
-                startActivity(intent);
+                Intent mint = new Intent(SplashActivity.this, MainActivity.class);
+                mint.putExtra("type", MainActivity.VideoView);
+                startActivity(mint);
                 finish();
             }
         });
