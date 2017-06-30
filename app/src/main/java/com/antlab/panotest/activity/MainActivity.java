@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements PanoView.showOrie
             case VideoView:
                 m_panoview = PanoVideoView.build().setGLSurface(glSurfaceView).init(MainActivity.this, MainActivity.this);
                 break;
-
         }
         Log.i(TAG, "init");
     }
