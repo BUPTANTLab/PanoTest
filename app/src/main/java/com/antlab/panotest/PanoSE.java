@@ -16,9 +16,9 @@ public class PanoSE implements SensorEventListener {
     private static final String TAG = PanoSE.class.getSimpleName();
     private float[] m_rotationMatrix = new float[16];
     private float[] m_orientation = new float[3];
-    private updateSensorMatrix m_usm;
+    private updateSE m_usm;
 
-    public void init(Activity root, updateSensorMatrix usm) {
+    public void init(Activity root, updateSE usm) {
         SensorManager sensorManager = (SensorManager) root
                 .getSystemService(Context.SENSOR_SERVICE);
         Sensor sensorRot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -43,7 +43,7 @@ public class PanoSE implements SensorEventListener {
                 case Sensor.TYPE_ROTATION_VECTOR:
                     sensorRotationVectorToMatrix(event, m_rotationMatrix);
                     SensorManager.getOrientation(m_rotationMatrix, m_orientation);
-                    m_usm.update(m_rotationMatrix,m_orientation);
+                    m_usm.OnSEChanged(m_rotationMatrix,m_orientation);
                     break;
             }
         }
@@ -63,7 +63,7 @@ public class PanoSE implements SensorEventListener {
         Matrix.rotateM(output, 0, -90.0F, 1.0F, 0.0F, 0.0F);
     }
 
-    public interface updateSensorMatrix {
-        void update(float[] rotationMatrix, float[] orientation);
+    public interface updateSE {
+        void OnSEChanged(float[] rotationMatrix, float[] orientation);
     }
 }

@@ -16,7 +16,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix {
+public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, PanoSE.updateSE {
     private static final String TAG = PanoImageView.class.getSimpleName();
     private GLSurfaceView m_glsv;
     private Context m_context;
@@ -33,6 +33,7 @@ public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, P
     private float[] mMVPMatrix = new float[16];
     private int uMatrixHandle;
     private PanoSE m_pse = new PanoSE();
+    private showOrientation m_so;
 
     private PanoImageView() {
     }
@@ -49,11 +50,12 @@ public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, P
         return new PanoImageView();
     }
 
-    public PanoImageView init(Context context) {
+    public PanoImageView init(Context context, showOrientation so) {
         m_sphere = new Sphere(18, 100);
         m_context = context;
         Matrix.setIdentityM(modelMatrix, 0);
         m_pse.init((Activity) context, this);
+        m_so = so;
         return this;
     }
 
@@ -119,9 +121,11 @@ public class PanoImageView extends PanoView implements GLSurfaceView.Renderer, P
     }
 
     @Override
-    public void update(float[] rotationMatrix, float[] orientation) {
+    public void OnSEChanged(float[] rotationMatrix, float[] orientation) {
         modelMatrix = rotationMatrix;
+        m_so.OnOrientationChanged(orientation);
         m_glsv.requestRender();
         Log.i(TAG, "requestRender");
     }
+
 }

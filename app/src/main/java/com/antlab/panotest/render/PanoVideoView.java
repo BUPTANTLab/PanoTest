@@ -26,7 +26,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, PanoSE.updateSensorMatrix, SurfaceTexture.OnFrameAvailableListener, MediaPlayer.OnVideoSizeChangedListener {
+public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, PanoSE.updateSE, SurfaceTexture.OnFrameAvailableListener, MediaPlayer.OnVideoSizeChangedListener {
     private static final String TAG = PanoVideoView.class.getSimpleName();
     private GLSurfaceView m_glsv;
     private Sphere m_sphere;
@@ -44,6 +44,7 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
     private PanoSE m_pse = new PanoSE();
     private SurfaceTexture surfaceTexture;
     private MediaPlayer mediaPlayer;
+    private showOrientation m_so;
 
     private PanoVideoView() {
     }
@@ -60,7 +61,7 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
         return new PanoVideoView();
     }
 
-    public PanoVideoView init(Context context) {
+    public PanoVideoView init(Context context, showOrientation so) {
         m_sphere = new Sphere(18, 100);
         Matrix.setIdentityM(modelMatrix, 0);
         m_pse.init((Activity) context, this);
@@ -74,6 +75,7 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setLooping(true);
         mediaPlayer.setOnVideoSizeChangedListener(this);
+        m_so = so;
         return this;
     }
 
@@ -160,8 +162,9 @@ public class PanoVideoView extends PanoView implements GLSurfaceView.Renderer, P
     }
 
     @Override
-    public void update(float[] rotationMatrix, float[] orientation) {
+    public void OnSEChanged(float[] rotationMatrix, float[] orientation) {
         modelMatrix = rotationMatrix;
+        m_so.OnOrientationChanged(orientation);
         m_glsv.requestRender();
         Log.i(TAG, "requestRender");
     }

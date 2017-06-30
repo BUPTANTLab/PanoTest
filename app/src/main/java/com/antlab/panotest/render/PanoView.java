@@ -7,4 +7,8 @@ public abstract class PanoView {
     public abstract void pause();
 
     public abstract void resume();
+
+    public interface showOrientation {
+        void OnOrientationChanged(float[] orientation);
+    }
 }

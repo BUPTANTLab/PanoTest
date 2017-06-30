@@ -12,7 +12,7 @@ import com.antlab.panotest.render.PanoImageView;
 import com.antlab.panotest.render.PanoView;
 import com.antlab.panotest.render.PanoVideoView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PanoView.showOrientation {
     private PanoView m_panoview;
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int ImageView = 1;
@@ -64,5 +64,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         m_panoview.resume();
+    }
+
+    @Override
+    public void OnOrientationChanged(float[] orientation) {
     }
 }
