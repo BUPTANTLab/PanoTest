@@ -8,12 +8,15 @@ import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
 
 import com.antlab.panotest.R;
+import com.antlab.panotest.render.PanoImageView;
 import com.antlab.panotest.render.PanoView;
 import com.antlab.panotest.render.PanoVideoView;
 
 public class MainActivity extends AppCompatActivity {
     private PanoView m_panoview;
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final int ImageView = 1;
+    public static final int VideoView = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         GLSurfaceView glSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
-        m_panoview = PanoVideoView.build().setGLSurface(glSurfaceView).init(MainActivity.this);
+        Bundle bundle = getIntent().getExtras();
+        int type = bundle.getInt("type");
+        switch (type) {
+            default:
+            case ImageView:
+                m_panoview = PanoImageView.build().setGLSurface(glSurfaceView).init(MainActivity.this);
+                break;
+            case VideoView:
+                m_panoview = PanoVideoView.build().setGLSurface(glSurfaceView).init(MainActivity.this);
+                break;
+
+        }
         Log.i(TAG, "init");
     }
 
